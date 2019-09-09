@@ -1,1 +1,1 @@
-Todo app use Redux 
+Todo app using Redux 
