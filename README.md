@@ -1,1 +1,5 @@
-Todo app using Redux 
+Todo app
+using:
+    + redux
+    + react-redux
+    + react-thunk
