@@ -6,7 +6,7 @@ import rootReducers from './reducers/rootReducers';
 import {  changeDynamicValue } from './actions/counterActions'
 // import counterReducer from './reducers/counterReducer';
 /* eslint-disable no-underscore-dangle */
-const store = createStore(rootReducers, window.STATE_FROM_SERVER, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const store = createStore(rootReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
  /* eslint-enable */
 
 function App() {
