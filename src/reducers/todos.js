@@ -1,13 +1,20 @@
 import { actionTypes } from '../constant/actionTypes';
 import { createDefaultTodo, getTodIndexByID, getTodoByID } from '../utils/creator';
 
-const initialState = [createDefaultTodo('do something')];
+const initialState = {
+    allIds: [],
+    byIds: {}
+};
 
 export default function todos(state = initialState, action) {
+    console.log(action)
     switch (action.type) {
         case actionTypes.ADD_TODO:
             const newTodo = createDefaultTodo(action.title)
-            return [newTodo, ...state];
+            return {
+                allIds: [newTodo.id, ...state.allIds],
+                byIds: {...state.byIds, [newTodo.id]: newTodo}
+            };
 
         case actionTypes.REMOVE_TODO:
             const todoIndex = getTodIndexByID(state)(action.todoId);
@@ -41,13 +48,18 @@ export default function todos(state = initialState, action) {
             return newTodos;
         }
         case actionTypes.TOGGLER_ALL_TODO: 
-            const areALLMarked = state.every(todo => todo.isCompleted === true)
-            return state.map(todo => (
-                {
-                    ...todo,
+            const areALLMarked = state.allIds.every(id => state.byIds[id].isCompleted === true);
+            const newByIds = state.allIds.reduce((acc, curr) => {
+                acc[curr] = {
+                    ...state.byIds[curr],
                     isCompleted: !areALLMarked
                 }
-            ));
+                return acc
+            }, {})
+            return {
+                ...state,
+                byIds: newByIds
+            }
 
         default:
             return state;
