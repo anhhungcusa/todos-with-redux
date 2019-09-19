@@ -1,15 +1,16 @@
 import { connect } from 'react-redux';
 import { TodoList } from '../components/TodoList';
-import { removeTodo } from '../actions/todoActions';
-
+import { removeTodo, togglerTodo } from '../actions/todoActions';
+import '../selectors/selectors'
+import { getTodosByfilter } from '../selectors/selectors';
 const mapStateToProps = (state) => {
-    console.log('mapTodo run')
-    return {...state.todos}
+    const filteredTodos = getTodosByfilter(state)
+    return {todos : filteredTodos};
 }
 
 const mapDispatchToProps = {
-    removeTodo    
+    removeTodo,
+    togglerTodo
 }
-
 export const VisibleTodoList = connect(mapStateToProps, mapDispatchToProps)(TodoList)
 

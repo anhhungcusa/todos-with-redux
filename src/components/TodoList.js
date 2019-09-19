@@ -1,11 +1,10 @@
 import React from 'react';
 import { TodoItem } from './TodoItem';
 
-export const TodoList = ({ allIds, byIds, removeTodo, togglerTodo, ...props}) => {
-    console.log('todos-run')
+export const TodoList = ({ todos, removeTodo, togglerTodo, ...props}) => {
     return (
         <ul>
-            {allIds.map(id => <TodoItem key={byIds[id].id} {...byIds[id]} removeTodo={removeTodo} togglerTodo={togglerTodo} />)}
+            {todos.map(todo => <TodoItem key={todo.id} {...todo} removeTodo={removeTodo} togglerTodo={togglerTodo} />)}
         </ul>
     )
 }

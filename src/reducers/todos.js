@@ -1,5 +1,6 @@
 import { actionTypes } from '../constant/actionTypes';
-import { createDefaultTodo, getTodIndexByID, getTodoByID } from '../utils/creator';
+import { createDefaultTodo } from '../utils/creator';
+import { getTodoIndexById } from '../selectors/selectors';
 
 const initialState = {
     allIds: [],
@@ -7,7 +8,7 @@ const initialState = {
 };
 
 export default function todos(state = initialState, action) {
-    console.log(action)
+    // debugger
     switch (action.type) {
         case actionTypes.ADD_TODO:
             const newTodo = createDefaultTodo(action.title)
@@ -17,35 +18,30 @@ export default function todos(state = initialState, action) {
             };
 
         case actionTypes.REMOVE_TODO:
-            const todoIndex = getTodIndexByID(state)(action.todoId);
-            const newTodos = [...state];
-            newTodos.splice(todoIndex, 1)
-            return newTodos;
-    
-        case actionTypes.EDIT_TODO:
-        {
-            const todoIndex = getTodIndexByID(state)(action.todoId);
-            const lastTodo = getTodoByID(state)(action.todoId);
-            const newTodo = {
-                ...lastTodo,
-                title: action.title
-            }
-            const newTodos = [...state];
-            newTodos.splice(todoIndex, 1, newTodo)
-            return newTodos;
-        }
+            const todoIndex = getTodoIndexById(state, action.todoId);
+            const newAllIds = [...state.allIds];
+            newAllIds.splice(todoIndex, 1);
+            const newByids = {...state.byIds};
+            delete newByids[action.todoId];
+            return {
+                allIds: newAllIds,
+                byIds: newByids
+            };
 
         case actionTypes.TOGGLER_TODO:
         {
-            const todoIndex = getTodIndexByID(state)(action.todoId);
-            const lastTodo = getTodoByID(state)(action.todoId);
-            const newTodo = {
-                ...lastTodo,
-                isCompleted: !lastTodo.isCompleted
-            }
-            const newTodos = [...state];
-            newTodos.splice(todoIndex, 1, newTodo)
-            return newTodos;
+            const { byIds } = state;
+            const { todoId } = action;
+            return {
+                ...state,
+                byIds: {
+                    ...byIds,
+                    [todoId]: {
+                        ...byIds[todoId],
+                        isCompleted: !byIds[todoId].isCompleted
+                    }
+                }
+            };
         }
         case actionTypes.TOGGLER_ALL_TODO: 
             const areALLMarked = state.allIds.every(id => state.byIds[id].isCompleted === true);

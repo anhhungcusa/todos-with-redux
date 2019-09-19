@@ -14,17 +14,16 @@ const store = createStore(rootReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && w
 /* eslint-enable */
 
 function App() {
-    const [state, setState] = React.useState(1);
-    const updateState = () => setState(state + 1);
     return (
-        <div className="App">
-            <Provider store={store}>
-                <HeaderContainer />
-                <VisibleTodoList hello={1} />
-                <Footer />
-            </Provider>
+        <div className='d-flex justify-center'>
+            <div className="App">
+                <Provider store={store}>
+                    <HeaderContainer />
+                    <VisibleTodoList />
+                    <Footer />
+                </Provider>
 
-            <button onClick={updateState}>re-render {state}</button>
+            </div>
         </div>
     );
 }
