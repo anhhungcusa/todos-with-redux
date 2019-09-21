@@ -5,9 +5,10 @@ export const getTodoByid = (todos, todoId) => {
 
     return todos.byIds[todoId];
 };
-export const getTodoList = (state) => {
-    return { todos: state.todos.allIds.map(id => getTodoByid(state.todos, id)), filter: state.visibilityFilter }
-};
+export const getTodoList = state => state.todos.allIds.map(id => getTodoByid(state.todos, id))
+
+
+export const getVisibilityFilter = state => state.visibilityFilter;
 
 export const getTodoIndexById = (todos, todoId) => {
     return todos.allIds.indexOf(todoId)
@@ -15,16 +16,21 @@ export const getTodoIndexById = (todos, todoId) => {
 
 
 
-export const getTodosByfilter = createSelector(getTodoList,
-    state => {
-        switch (state.filter) {
+export const getTodosByfilter = createSelector([getTodoList, getVisibilityFilter],
+    (todos, filter) => {
+        switch (filter) {
+            case todoFilters.SHOW_ALL:
+                return todos
             case todoFilters.SHOW_ACTIVE:
-                return state.todos.filter(todo => todo.isCompleted === false)
+                return todos.filter(todo => todo.isCompleted === false)
             case todoFilters.SHOW_COMPLETED:
-                return state.todos.filter(todo => todo.isCompleted === true)
+                return todos.filter(todo => todo.isCompleted === true)
             default:
-                return state.todos
+                throw new Error(`Unknow filter: ${filter}`)
         }
     }
 )
 
+export const getSubredditsName = reddit => Object.keys(reddit.postsBysubreddit);
+
+export const getPostsBySelectedSubReddit = reddit => reddit.postsBysubreddit && reddit.postsBysubreddit[reddit.selectedSubreddit] ? reddit.postsBysubreddit[reddit.selectedSubreddit].items : [];

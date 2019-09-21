@@ -1,15 +1,26 @@
 .d-flex {
-    display: flex
+    display: flex;
+    width: 100%;
 }
 
 .justify-center {
     justify-content: center;
 }
 
+.justify-between {
+    justify-content: space-between;
+}
+
 .align-center {
     align-items: center;
 }
-
+ul {
+    margin: 0 0 0 20px ;
+}
 ul > li{
     margin: 10px 0;
+}
+
+ul > li > {
+    margin: 5px;
 }

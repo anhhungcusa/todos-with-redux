@@ -4,8 +4,10 @@ import { removeTodo, togglerTodo } from '../actions/todoActions';
 import '../selectors/selectors'
 import { getTodosByfilter } from '../selectors/selectors';
 const mapStateToProps = (state) => {
-    const filteredTodos = getTodosByfilter(state)
-    return {todos : filteredTodos};
+    return function mapState(state, ownProps){
+        const filteredTodos = getTodosByfilter(state)
+        return {todos : filteredTodos};
+    }
 }
 
 const mapDispatchToProps = {
